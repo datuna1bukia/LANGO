@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .test-container {
+            border: 2px solid #333;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .mobile-indicator {
+            background: #ff0000;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .desktop-indicator {
+            background: #00ff00;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        /* Mobile styles */
+        @media (max-width: 768px) {
+            .mobile-indicator {
+                display: block;
+            }
+            .desktop-indicator {
+                display: none;
+            }
+            .test-container {
+                background: #f0f0f0;
+            }
+        }
+        
+        /* Desktop styles */
+        @media (min-width: 769px) {
+            .mobile-indicator {
+                display: none;
+            }
+            .desktop-indicator {
+                display: block;
+            }
+            .test-container {
+                background: #e0e0e0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Mobile Responsiveness Test</h1>
+    
+    <div class="mobile-indicator">
+        📱 MOBILE LAYOUT ACTIVE (≤768px)
+    </div>
+    
+    <div class="desktop-indicator">
+        🖥️ DESKTOP LAYOUT ACTIVE (>768px)
+    </div>
+    
+    <div class="test-container">
+        <h2>Current Viewport Size</h2>
+        <p>Width: <span id="width">-</span>px</p>
+        <p>Height: <span id="height">-</span>px</p>
+        <p>Device Pixel Ratio: <span id="dpr">-</span></p>
+    </div>
+    
+    <div class="test-container">
+        <h2>Instructions</h2>
+        <p>1. Resize your browser window to test responsiveness</p>
+        <p>2. Use browser dev tools to simulate mobile devices</p>
+        <p>3. Check if the indicators change correctly</p>
+    </div>
+    
+    <script>
+        function updateSize() {
+            document.getElementById('width').textContent = window.innerWidth;
+            document.getElementById('height').textContent = window.innerHeight;
+            document.getElementById('dpr').textContent = window.devicePixelRatio;
+        }
+        
+        window.addEventListener('resize', updateSize);
+        updateSize();
+    </script>
+</body>
+</html> 

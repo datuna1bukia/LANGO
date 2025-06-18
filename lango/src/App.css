@@ -1,0 +1,477 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  height: 100vh;
+  /* Mobile optimizations */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Allow text selection in specific areas */
+.chat-content, .panel-title, .character-name, .topic-btn {
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+.app-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.lango-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffe066;
+  border-bottom: 2px solid #f5d76e;
+  padding: 12px 20px;
+  height: 70px;
+  flex-shrink: 0;
+  z-index: 100;
+}
+.lango-logo {
+  height: 60px;
+  width: auto;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2)) contrast(1.2);
+  transition: all 0.3s ease;
+}
+.lango-logo:hover {
+  transform: scale(1.1) rotate(5deg);
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)) contrast(1.3);
+}
+.lango-header-spacer {
+  flex: 1;
+}
+.lango-user-icon {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #f5d76e;
+}
+
+.lango-3col-layout {
+  display: flex;
+  flex: 1;
+  height: calc(100vh - 70px);
+  overflow: hidden;
+}
+
+/* Chat Modal Animation */
+.chat-modal-overlay.chat-modal-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.18);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s;
+}
+.chat-modal.chat-modal-fullscreen {
+  background: #fff;
+  width: 100vw;
+  max-width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  animation: slideUp 0.4s;
+}
+.chat-exit-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #f5b041;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  z-index: 1001;
+  transition: background 0.2s;
+}
+.chat-exit-btn:hover {
+  background: #e69c3a;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes logoBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* Desktop Layout (default) */
+.history-panel {
+  width: 220px;
+}
+
+.topic-panel {
+  width: 260px;
+}
+
+/* Tablet Layout */
+@media (max-width: 1100px) {
+  .history-panel {
+    width: 180px;
+  }
+  .topic-panel {
+    width: 200px;
+  }
+}
+
+@media (max-width: 900px) {
+  .lango-header {
+    padding: 10px 15px;
+    height: 65px;
+  }
+  .lango-logo {
+    height: 45px;
+  }
+  .lango-user-icon {
+    height: 35px;
+    width: 35px;
+  }
+  .lango-3col-layout {
+    height: calc(100vh - 65px);
+  }
+  .history-panel {
+    width: 160px;
+  }
+  .topic-panel {
+    width: 180px;
+  }
+}
+
+/* Mobile Layout - Switch to vertical layout */
+@media (max-width: 768px) {
+  .lango-header {
+    padding: 8px 12px;
+    height: 60px;
+  }
+  .lango-logo {
+    height: 32px;
+  }
+  .lango-user-icon {
+    height: 32px;
+    width: 32px;
+  }
+  
+  .lango-3col-layout {
+    flex-direction: column !important;
+    height: calc(100vh - 60px) !important;
+  }
+  
+  /* Hide history panel on mobile to save space */
+  .history-panel {
+    display: none !important;
+  }
+  
+  /* Make character grid and topic panel horizontal at top */
+  .character-grid-center {
+    height: auto !important;
+    min-height: 120px !important;
+    padding: 10px !important;
+  }
+  
+  .topic-panel {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 80px !important;
+    border-right: none !important;
+    border-bottom: 2px solid #f5d76e !important;
+    padding: 10px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+  }
+  
+  .topic-list {
+    flex-direction: row !important;
+    gap: 8px !important;
+    justify-content: center !important;
+    flex-wrap: nowrap !important;
+  }
+  
+  .topic-btn {
+    white-space: nowrap !important;
+    min-width: 80px !important;
+    text-align: center !important;
+  }
+  
+  .chat-modal.chat-modal-fullscreen {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+    padding: 0;
+  }
+  
+  .chat-exit-btn {
+    top: 15px;
+    right: 15px;
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 700px) {
+  .character-grid-center {
+    min-height: 100px !important;
+    padding: 8px !important;
+  }
+  
+  .topic-panel {
+    min-height: 70px !important;
+    padding: 8px !important;
+  }
+  
+  .topic-list {
+    gap: 6px !important;
+  }
+  
+  .topic-btn {
+    min-width: 70px !important;
+    font-size: 0.85em !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .lango-header {
+    padding: 6px 10px;
+    height: 55px;
+  }
+  .lango-logo {
+    height: 28px;
+  }
+  .lango-user-icon {
+    height: 28px;
+    width: 28px;
+  }
+  .lango-3col-layout {
+    height: calc(100vh - 55px);
+  }
+  
+  .character-grid-center {
+    min-height: 80px !important;
+    padding: 6px !important;
+  }
+  
+  .topic-panel {
+    min-height: 60px !important;
+    padding: 6px !important;
+  }
+  
+  .topic-list {
+    gap: 4px !important;
+  }
+  
+  .topic-btn {
+    min-width: 60px !important;
+    font-size: 0.8em !important;
+  }
+  
+  .chat-exit-btn {
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 360px) {
+  .lango-header {
+    padding: 5px 8px;
+    height: 50px;
+  }
+  .lango-logo {
+    height: 24px;
+  }
+  .lango-user-icon {
+    height: 24px;
+    width: 24px;
+  }
+  .lango-3col-layout {
+    height: calc(100vh - 50px);
+  }
+  
+  .character-grid-center {
+    min-height: 70px !important;
+    padding: 4px !important;
+  }
+  
+  .topic-panel {
+    min-height: 50px !important;
+    padding: 4px !important;
+  }
+  
+  .topic-list {
+    gap: 3px !important;
+  }
+  
+  .topic-btn {
+    min-width: 50px !important;
+    font-size: 0.75em !important;
+  }
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.error-container {
+  max-width: 600px;
+  margin: 100px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.error-container pre {
+  background-color: #f5f5f5;
+  padding: 10px;
+  border-radius: 4px;
+  margin: 10px 0;
+  font-family: monospace;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Panel base styles (for all panels) */
+.character-panel, .topic-panel, .chat-panel {
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+/* CharacterPanel width is set in its own CSS */
+/* TopicPanel width is set in its own CSS */
+/* ChatPanel flex: 1 is set in its own CSS */
+
+.topic-chat-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  background: #fff;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+.chat-panel-placeholder {
+  margin: 32px 20px;
+  color: #aaa;
+  font-size: 1.1em;
+  text-align: center;
+}
+
+/* Responsive: Tablet */
+@media (max-width: 1100px) {
+  .history-panel {
+    width: 120px;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+  .topic-panel {
+    width: 120px;
+    min-width: 100px;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+}
